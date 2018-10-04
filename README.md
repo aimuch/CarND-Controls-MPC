@@ -2,6 +2,7 @@
 Self-Driving Car Engineer Nanodegree Program
 
 ---
+![gif](./img/run.gif)
 
 ## Dependencies
 

@@ -2,7 +2,24 @@
 Self-Driving Car Engineer Nanodegree Program
 
 ---
+## The simulator video
 ![gif](./img/run.gif)
+
+## Model
+The vehicle model used in this project is a kinematic bicycle model. It neglects all dynamical effects such as inertia, friction and torque. The model takes changes of heading direction into account and is thus non-linear. 
+
+## Timestep Length and Elapsed Duration
+The time T=N dt defines the prediction horizon. Short prediction horizons lead to more responsive controlers, but are less accurate and can suffer from instabilities when chosen too short. Long prediction horizons generally lead to smoother controls. For a given prediction horizon shorter time steps dt imply more accurate controls but also require a larger NMPC problem to be solved, thus increasing latency.
+
+Here I chose values of N and dt such that drives the car smoothly around the track for slow velocities of about 25mph all the way up to about 70mph. The values are N=12 and dt=0.05. Note that the 100ms = 2*dt latency imply that the controls of the first two time steps are not used in the optimization.
+
+## Polynomial Fitting and MPC Preprocessing
+All computations are performed in the vehicle coordinate system. The coordinates of waypoints in vehicle coordinates are obtained by first shifting the origin to the current poistion of the vehicle and a subsequet 2D rotation to align the x-axis with the heading direction. Therby the waypoints are obtained in the frame of the vehicle. A third order polynomial is then fitted to the waypoints. 
+
+## Model Predictive Control with Latency
+An additional complication of this project consists in taking delayed actuations into account. After the solution of the NMPC problem a delay of 100ms is introduced before the actuations are sent back to the simulator.
+
+When delays are not properly accounted for oscillations and/or bad trajectories can occur. These delays make the control problem a so-called sampled MPC problem.
 
 ## Dependencies
 
